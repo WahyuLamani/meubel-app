@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { getAllCustomers } from "@/lib/getdata";
 import Image from "next/image";
+import moment from "moment";
 
 export default async function CustomerTable() {
     const customers = await getAllCustomers();
@@ -41,7 +42,7 @@ export default async function CustomerTable() {
                         <TableCell>{customer.email}</TableCell>
                         <TableCell>{customer.phone}</TableCell>
                         <TableCell>
-                            {customer.createdAt.toLocaleDateString()}
+                            {moment(customer.createdAt).fromNow()}
                         </TableCell>
                         <TableCell className="text-right">Action</TableCell>
                     </TableRow>

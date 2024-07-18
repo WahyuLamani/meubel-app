@@ -2,9 +2,8 @@
 
 import { z } from "zod";
 import { formSchemaCustomer } from "./definitions";
-import { PrismaClient } from "@prisma/client";
+import { prisma, timestamp } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
-const prisma = new PrismaClient();
 export async function storeCustomer(
     customer: z.infer<typeof formSchemaCustomer>
 ) {
@@ -16,19 +15,24 @@ export async function storeCustomer(
                 gender: customer.gender,
                 phone: customer.phone,
                 address: customer.address,
-                photo: customer.photo,
+                photo: customer.photo
+                    ? customer.photo
+                    : `https://robohash.org/${customer.fullname}`,
+                createdAt: timestamp(),
+                updatedAt: timestamp(),
             },
         });
-        revalidatePath('/customers');
+        revalidatePath("/customers");
         return {
             status: "success",
             message: "Customer created successfully",
             data: data,
         };
-    } catch (error) {
+    } catch (error: Error | any) {
+        console.log(`Error : ${error.message}`);
         return {
             status: "error",
-            message: error
+            message: "Unsuccessfull create customer. Please try again later",
         };
     }
 }

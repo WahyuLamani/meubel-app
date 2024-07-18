@@ -2,16 +2,19 @@ import { PrismaClient } from "@prisma/client";
 import { unstable_noStore as noStore } from "next/cache";
 const prisma = new PrismaClient();
 
-export async function getAllCustomers() {
+export async function getAllCustomers(): Promise<Customer[]> {
     noStore();
-    const customers: Customer[] = await prisma.customers.findMany();
-    return customers;
+    const customers = await prisma.customers.findMany();
+    return customers.map((customer) => ({
+        ...customer,
+        gender: customer.gender as Gender,
+    }));
 }
 
-export async function getCustomerById(id: number) {
+export async function getCustomerById(id: number): Promise<Customer | null> {
     noStore();
-    const customer: Customer | null = await prisma.customers.findUnique({
+    const customer = await prisma.customers.findUnique({
         where: { id },
     });
-    return customer;
+    return customer ? { ...customer, gender: customer.gender as Gender } : null;
 }

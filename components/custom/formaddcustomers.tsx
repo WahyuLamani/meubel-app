@@ -17,8 +17,10 @@ import { storeCustomer } from "@/lib/action";
 import { useToast } from "@/components/ui/use-toast";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import clsx from "clsx";
+import { useState } from "react";
 
 export default function FormAddCustomer() {
+    const [loading, setLoading] = useState(false);
     const { toast } = useToast();
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchemaCustomer>>({
@@ -34,12 +36,14 @@ export default function FormAddCustomer() {
     });
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchemaCustomer>) {
+        setLoading(true);
         const response = await storeCustomer(values);
         toast({
             variant: "default",
             description: <Messages response={response} />,
         });
-        form.reset();
+        if (response.status === "success") form.reset();
+        setLoading(false);
     }
     return (
         <Form {...form}>
@@ -158,33 +162,44 @@ export default function FormAddCustomer() {
                                     {...field}
                                     autoComplete="off"
                                     type="file"
+                                    className="file-input"
                                 />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                {loading === false ? (
+                    <Button disabled={loading} type="submit">
+                        {loading === false ? "Save" : null}
+                    </Button>
+                ) : (
+                    <span className="loading loading-spinner loading-md"></span>
+                )}
             </form>
         </Form>
     );
 }
 
-const Messages = ({ response }:{response: any}) => {
+const Messages = ({ response }: { response: any }) => {
     return (
         <div>
-            <p className={clsx("text-lg font-medium", {
-                "text-green-500": response.status === "success",
-                "text-red-500": response.status === "error",
-            })}>
+            <p
+                className={clsx("text-lg font-medium", {
+                    "text-green-500": response.status === "success",
+                    "text-red-500": response.status === "error",
+                })}
+            >
                 {response.status}
-          </p>
-          <p className={clsx("mt-1 text-sm",{
-                "text-green-500": response.status === "success",
-                "text-red-500": response.status === "error",
-          })}>
-            {response.message}
-          </p>
+            </p>
+            <p
+                className={clsx("mt-1 text-sm", {
+                    "text-green-500": response.status === "success",
+                    "text-red-500": response.status === "error",
+                })}
+            >
+                {response.message}
+            </p>
         </div>
     );
 };

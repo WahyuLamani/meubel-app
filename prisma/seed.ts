@@ -1,22 +1,20 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-
+import { timestamp, prisma } from "@/lib/utils";
 const Users = [
     {
         fullname: "Jane Smith",
         username: "jane112",
         password: "jane112",
         email: "jane.mclean@examplepetstore.com",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: timestamp(),
+        updatedAt: timestamp(),
     },
     {
         fullname: "John Doe",
         username: "john123",
         password: "jhon123",
         email: "john.mckinley@examplepetstore.com",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: timestamp(),
+        updatedAt: timestamp(),
     },
 ];
 const Customers = [
@@ -27,8 +25,8 @@ const Customers = [
         email: "marry@marilan.com",
         phone: "081224244474",
         address: "Gunung Kidul",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: timestamp(),
+        updatedAt: timestamp(),
     },
     {
         fullname: "Fillain Darin",
@@ -37,8 +35,8 @@ const Customers = [
         email: "fillaen@malefikroar.com",
         phone: "08747741154",
         address: "Turkeyan",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: timestamp(),
+        updatedAt: timestamp(),
     },
 ];
 async function main() {
