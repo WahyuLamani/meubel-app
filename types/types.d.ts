@@ -5,19 +5,19 @@ type User = {
     username: string;
     password: string;
     email: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 };
 type Customer = {
     id?: number;
     fullname: string;
-    photo?: string;
+    photo: string;
     gender: Gender;
     email: string;
     phone: string;
     address: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 };
 
 interface Responsable {
