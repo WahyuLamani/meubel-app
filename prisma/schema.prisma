@@ -20,8 +20,8 @@ model Users{
   username  String    @db.VarChar(25)
   email     String    @db.VarChar(255)
   password  String    @db.VarChar(255)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt String    @db.VarChar(50)
+  updatedAt String    @db.VarChar(50)
 }
 
 model Customers{
@@ -32,6 +32,6 @@ model Customers{
   email     String    @unique @db.VarChar(255)
   phone     String    @db.VarChar(255)
   address   String    @db.VarChar(255)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt String    @db.VarChar(50)
+  updatedAt String    @db.VarChar(50)
 }
