@@ -169,12 +169,15 @@ export default function FormAddCustomer() {
                         </FormItem>
                     )}
                 />
+
                 {loading === false ? (
                     <Button disabled={loading} type="submit">
                         {loading === false ? "Save" : null}
                     </Button>
                 ) : (
-                    <span className="loading loading-spinner loading-md"></span>
+                    <div className="flex justify-center w-16">
+                        <div className=" w-7 h-7 border-4 border-t-transparent border-primary border-solid rounded-full animate-spin" />
+                    </div>
                 )}
             </form>
         </Form>
