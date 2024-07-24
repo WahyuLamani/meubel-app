@@ -11,7 +11,6 @@ export const formatDate = "DD-MM-YYYY HH:mm:ss";
 
 export function timestamp() {
     moment.tz.setDefault(process.env.NEXT_PUBLIC_TIMEZONE);
-    console.log(moment().format());
     const nowISO = moment().toISOString();
     return nowISO;
 }
