@@ -12,15 +12,18 @@ import {
 import { UserRoundPlus } from "lucide-react";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import CustomerTable from "@/components/custom/tablecustomers";
 import SkeletonTableCustomers from "@/components/skeletons/skeletontable";
+import DataTable from "@/components/customers/data-table";
+import { getAllCustomers } from "@/lib/getdata";
+import { customerColumns } from "@/components/customers/columns";
 
 export const metadata: Metadata = {
     title: "Customers",
     description: "Customers",
 };
 
-export default function Customers() {
+export default async function Customers() {
+    const customers = await getAllCustomers();
     return (
         <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
             <div className="mx-auto flex justify-between w-full max-w-6xl gap-2">
@@ -55,7 +58,10 @@ export default function Customers() {
                         <div className="flex flex-col gap-2">
                             <div className="flex justify-between">
                                 <Suspense fallback={<SkeletonTableCustomers />}>
-                                    <CustomerTable />
+                                    <DataTable
+                                        data={customers}
+                                        columns={customerColumns}
+                                    />
                                 </Suspense>
                             </div>
                         </div>
