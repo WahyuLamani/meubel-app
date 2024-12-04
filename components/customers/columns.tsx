@@ -4,21 +4,20 @@ import {
     DropdownMenu,
     DropdownMenuTrigger,
     DropdownMenuContent,
-    DropdownMenuLabel,
     DropdownMenuItem,
-    DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Delete, Edit, MoreHorizontal } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import DataTableColumnHeader from "@/components/customers/sortable-hideable";
 
 export const customerColumns: ColumnDef<Customer>[] = [
     {
         accessorKey: "photo",
-        header: "",
+        header: "Photo",
         cell: ({ row }) => {
             return (
                 <Image
@@ -30,10 +29,13 @@ export const customerColumns: ColumnDef<Customer>[] = [
                 />
             );
         },
+        size: 100,
     },
     {
         accessorKey: "fullname",
-        header: "Fullname",
+        header: ({ column }) => {
+            return <DataTableColumnHeader column={column} title="Fullname" />;
+        },
     },
     {
         accessorKey: "email",
@@ -47,9 +49,9 @@ export const customerColumns: ColumnDef<Customer>[] = [
             return (
                 <span
                     className={clsx(
-                        "text-sm border-1 px-2 py-1 rounded-md text-white",
-                        { "bg-blue-500": gender === "male" },
-                        { "bg-red-500": gender === "female" }
+                        "text-sm border-1 px-2 py-1 rounded-md ",
+                        { "bg-primary text-white": gender === "male" },
+                        { "bg-secondary text-dark": gender === "female" }
                     )}
                 >
                     {gender}
@@ -79,10 +81,13 @@ export const customerColumns: ColumnDef<Customer>[] = [
     },
     {
         id: "actions",
-        header: "Actions",
+        header: () => {
+            return (
+                <span className="flex flex-row justify-center">Actions</span>
+            );
+        },
         cell: ({ row }) => {
-            const payment = row.original;
-
+            const customer: Customer = row.original;
             return (
                 <div className="flex justify-center">
                     <DropdownMenu>
@@ -93,9 +98,16 @@ export const customerColumns: ColumnDef<Customer>[] = [
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem>View customer</DropdownMenuItem>
-                            <DropdownMenuItem>
-                                View payment details
+                            <DropdownMenuItem
+                                className="flex-row justify-between"
+                                onClick={() => console.log(customer)}
+                            >
+                                Edit
+                                <Edit className="h-4 w-4" />
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="flex-row justify-between text-destructive hover:text-destructive">
+                                Delete
+                                <Delete className="h-4 w-4" />
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
